@@ -19,8 +19,10 @@ describe("commonjs", () => {
     try{
       assert(key2.decode(encoded1) != plain_text);
     }catch(e){
-      console.log(typeof e);
       assert(e instanceof Error);
     }
+  });
+  it("generateKeys()", () => {
+    assert.equal(SecretKey.generateKeys().algorithm,"aes-256-cbc");
   });
 });

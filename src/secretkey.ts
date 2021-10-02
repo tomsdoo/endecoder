@@ -73,13 +73,21 @@ class SecretKeyBase {
 
 export class SecretKey extends SecretKeyBase {
   constructor(options?: SecretKeyOptions){
+    const defaultKeys = SecretKey.generateKeys();
     super(
-      options && options.algorithm || "aes-256-cbc",
-      options &&options.password || crypto.randomBytes(48).toString("base64"),
-      options && options.salt || crypto.randomBytes(12).toString("base64")
+      options && options.algorithm || defaultKeys.algorithm,
+      options &&options.password || defaultKeys.password,
+      options && options.salt || defaultKeys.salt
     );
   }
   public static activate(options?: SecretKeyOptions){
     return new this(options);
+  }
+  public static generateKeys(){
+    return {
+      algorithm: "aes-256-cbc",
+      password: crypto.randomBytes(48).toString("base64"),
+      salt: crypto.randomBytes(12).toString("base64")
+    };
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "endecoder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A module can encode/decode strings with the keys.",
   "main": "dist/cjs/secretkey.js",
   "module": "dist/esm/secretkey.js",
@@ -9,8 +9,18 @@
     "build": "tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
     "test": "mocha --require @babel/register test/**/*.test.js"
   },
-  "keywords": ["encryption","secret","encode","decode","key"],
+  "keywords": [
+    "encryption",
+    "secret",
+    "encode",
+    "decode",
+    "key"
+  ],
   "author": "tom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomsdoo/endecoder"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.15.5",
