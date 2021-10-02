@@ -91,3 +91,28 @@ export class SecretKey extends SecretKeyBase {
     };
   }
 }
+
+export function encode(
+  data: string,
+  options?: SecretKeyOptions
+){
+  const lopt = {
+    ...SecretKey.generateKeys(),
+    ...(options ? options : {})
+  };
+  return {
+    data: SecretKey
+      .activate(lopt)
+      .encode(data),
+    options: lopt
+  };
+}
+
+export function decode(
+  data: string,
+  options?: SecretKeyOptions
+){
+  return SecretKey
+    .activate(options)
+    .decode(data);
+}
