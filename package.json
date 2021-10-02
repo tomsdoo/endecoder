@@ -11,6 +11,10 @@
   },
   "keywords": ["encryption","secret","encode","decode","key"],
   "author": "tom",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomsdoo/endecoder"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.15.5",
