@@ -10,7 +10,26 @@ npm install endecoder
 
 ## Usage
 
-``` javascript
+### encode / decode easily
+
+``` typescript
+import { encode, decode } from "endecoder";
+
+const PLAIN_TEXT = "this is a test string !#$%&'()";
+
+const { data: encoded, options } = encode(PLAIN_TEXT);
+// save options for decoding
+
+const decoded = decode(encoded, options);
+
+console.log(PLAIN_TEXT == decoded);
+// true
+
+```
+
+### more detailed
+
+``` typescript
 import { SecretKey } from "endecoder";
 
 const PLAIN_TEXT = "this is a test string !#$%&'()";
