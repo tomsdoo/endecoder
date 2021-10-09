@@ -51,7 +51,7 @@ console.log(key.decode(encoded) == PLAIN_TEXT);
 // wrong password and salt combination
 const alt_key = SecretKey.activate({
   password,
-  salt: "salt///:*"
+  salt: "salt///;*"
 });
 
 try{
