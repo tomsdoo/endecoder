@@ -7,7 +7,7 @@
   "types": "dist/esm/secretkey.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
-    "test": "mocha --require @babel/register test/**/*.test.js"
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
   "keywords": [
     "encryption",
@@ -23,11 +23,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.6",
-    "@babel/register": "^7.15.3",
+    "@types/mocha": "^9.1.1",
     "@types/node": "^16.10.2",
     "mocha": "^9.1.2",
-    "typescript": "^4.4.3"
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
   }
 }
