@@ -1,5 +1,6 @@
 import {describe, it } from "mocha";
 import { strict as assert } from "assert";
+import { randomBytes } from "crypto";
 
 import { SecretKey, encode, decode } from "../src/secretkey";
 
@@ -45,6 +46,19 @@ describe("SecretKey", () => {
     assert.equal(
       decode(result.data, result.options),
       plain_text
+    );
+  });
+
+  it("encrypt() & decrypt()", async () => {
+    const plainBuffer = randomBytes(1024 * 1024);
+    const encryptedData = await key1.encrypt(plainBuffer);
+    const decryptedData = await key1.decrypt(encryptedData);
+    assert.equal(
+      plainBuffer.toString("base64"),
+      decryptedData.toString("base64")
+    );
+    assert.rejects(
+      () => key2.decrypt(encryptedData)
     );
   });
 
