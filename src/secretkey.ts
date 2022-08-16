@@ -1,4 +1,5 @@
 import * as crypto from "crypto";
+import { deflate, inflate } from "zlib";
 
 export type SecretKeyOptions = {
   algorithm?: string;
@@ -57,6 +58,52 @@ class SecretKeyBase {
       decipher.final()
     ]);
     return decryptedData.toString();
+  }
+  public async encrypt(data: Buffer){
+    const deflatedData = await new Promise(
+      (resolve, reject) => deflate(data, (err, rdata) => (err ? reject : resolve)(err || rdata))
+    );
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(
+      this.algorithm,
+      this.getKey(),
+      iv
+    );
+    return [
+      iv.toString("base64"),
+      Buffer.concat([
+        cipher.update(deflatedData as Buffer),
+        cipher.final()
+      ]).toString("base64")
+    ].join(":");
+  }
+  public async decrypt(data: string): Promise<Buffer>{
+    const [
+      iv,
+      encryptedData
+    ] = data.split(":").map(
+      v => Buffer.from(v, "base64")
+    );
+    const decipher = crypto.createDecipheriv(
+      this.algorithm,
+      this.getKey(),
+      iv
+    );
+    return await new Promise(
+      (resolve, reject) => inflate(
+        Buffer.concat([
+          decipher.update(encryptedData),
+          decipher.final()
+        ]),
+        (err, rdata) => {
+          if(err){
+            reject(err);
+          }else{
+            resolve(rdata);
+          }
+        }
+      )
+    );
   }
   public static activate({
     algorithm,
