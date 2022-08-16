@@ -1,5 +1,7 @@
+.github/
 node_modules/
 src/
+test/
 package-lock.json
 tsconfig.base.json
 tsconfig.cjs.json
