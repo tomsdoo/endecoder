@@ -4,6 +4,7 @@
     "target": "es2015",
     "module": "commonjs",
     "outDir": "./dist/cjs/",
+    "declaration": false,
   },
   "files":[
     "src/secretkey.ts"
