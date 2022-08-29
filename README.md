@@ -69,3 +69,27 @@ try{
 }
 
 ```
+
+### SecretKey class
+``` typescript
+type SecretKeyOptions = {
+    algorithm?: string;
+    password?: string;
+    salt?: string;
+};
+
+class SecretKey {
+  constructor(options?: SecretKeyOptions);
+  public encode(data: string): string;
+  public decode(data: string): string;
+  public encrypt(data: Buffer): Promise<string>;
+  public decrypt(data: string): Promise<Buffer>;
+  public static activate(options?: SecretKeyOptions): SecretKey;
+  public static generateKeys(): {
+    algorithm: string;
+    password: string;
+    salt: string;
+  };
+}
+
+```
