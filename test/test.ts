@@ -1,4 +1,4 @@
-import {describe, it } from "mocha";
+import { describe, it } from "mocha";
 import { strict as assert } from "assert";
 import { randomBytes } from "crypto";
 
@@ -22,9 +22,9 @@ describe("SecretKey", () => {
 
   it("decode() - 2", () => {
     const encoded1 = key1.encode(plain_text);
-    try{
+    try {
       assert(key2.decode(encoded1) != plain_text);
-    }catch(e){
+    } catch (e) {
       assert(e instanceof Error);
     }
   });
@@ -35,18 +35,12 @@ describe("SecretKey", () => {
 
   it("encode()", () => {
     const result = encode(plain_text);
-    assert(
-      "data" in result &&
-      "options" in result
-    );
+    assert("data" in result && "options" in result);
   });
 
   it("decode()", () => {
     const result = encode(plain_text);
-    assert.equal(
-      decode(result.data, result.options),
-      plain_text
-    );
+    assert.equal(decode(result.data, result.options), plain_text);
   });
 
   it("encrypt() & decrypt()", async () => {
@@ -57,9 +51,6 @@ describe("SecretKey", () => {
       plainBuffer.toString("base64"),
       decryptedData.toString("base64")
     );
-    assert.rejects(
-      () => key2.decrypt(encryptedData)
-    );
+    assert.rejects(() => key2.decrypt(encryptedData));
   });
-
 });
