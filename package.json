@@ -8,6 +8,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
     "format:src": "prettier --write src/**/*.ts",
+    "format:test": "prettier --write test/**/*.ts",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
   "keywords": [
