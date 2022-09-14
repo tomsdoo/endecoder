@@ -1,11 +1,11 @@
 import * as crypto from "crypto";
 import { deflate, inflate } from "zlib";
 
-export type SecretKeyOptions = {
+export interface SecretKeyOptions {
   algorithm?: string;
   password?: string;
   salt?: string;
-};
+}
 
 class SecretKeyBase {
   protected algorithm: string;
@@ -16,17 +16,20 @@ class SecretKeyBase {
     this.password = password;
     this.salt = salt;
   }
-  protected getKey() {
+
+  protected getKey(): Buffer {
     return crypto.scryptSync(this.password, this.salt, 32);
   }
-  public encode(data: string) {
+
+  public encode(data: string): string {
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(this.algorithm, this.getKey(), iv);
     let encryptedData = cipher.update(data);
     encryptedData = Buffer.concat([encryptedData, cipher.final()]);
     return [iv.toString("base64"), encryptedData.toString("base64")].join(":");
   }
-  public decode(data: string) {
+
+  public decode(data: string): string {
     const [iv, encryptedData] = data
       .split(":")
       .map((v) => Buffer.from(v, "base64"));
@@ -35,9 +38,11 @@ class SecretKeyBase {
     decryptedData = Buffer.concat([decryptedData, decipher.final()]);
     return decryptedData.toString();
   }
-  public async encrypt(data: Buffer) {
+
+  public async encrypt(data: Buffer): Promise<string> {
     const deflatedData = await new Promise((resolve, reject) =>
-      deflate(data, (err, rdata) => (err ? reject : resolve)(err || rdata))
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+      deflate(data, (err, rdata) => (err ? reject : resolve)(err ?? rdata))
     );
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv(this.algorithm, this.getKey(), iv);
@@ -49,6 +54,7 @@ class SecretKeyBase {
       ]).toString("base64"),
     ].join(":");
   }
+
   public async decrypt(data: string): Promise<Buffer> {
     const [iv, encryptedData] = data
       .split(":")
@@ -58,7 +64,7 @@ class SecretKeyBase {
       inflate(
         Buffer.concat([decipher.update(encryptedData), decipher.final()]),
         (err, rdata) => {
-          if (err) {
+          if (err != null) {
             reject(err);
           } else {
             resolve(rdata);
@@ -67,7 +73,12 @@ class SecretKeyBase {
       )
     );
   }
-  public static activate({ algorithm, password, salt }: SecretKeyOptions) {
+
+  public static activate({
+    algorithm,
+    password,
+    salt,
+  }: SecretKeyOptions): SecretKeyBase {
     return new this(algorithm as string, password as string, salt as string);
   }
 }
@@ -76,15 +87,21 @@ export class SecretKey extends SecretKeyBase {
   constructor(options?: SecretKeyOptions) {
     const defaultKeys = SecretKey.generateKeys();
     super(
-      (options && options.algorithm) || defaultKeys.algorithm,
-      (options && options.password) || defaultKeys.password,
-      (options && options.salt) || defaultKeys.salt
+      options?.algorithm ?? defaultKeys.algorithm,
+      options?.password ?? defaultKeys.password,
+      options?.salt ?? defaultKeys.salt
     );
   }
-  public static activate(options?: SecretKeyOptions) {
+
+  public static activate(options?: SecretKeyOptions): SecretKey {
     return new this(options);
   }
-  public static generateKeys() {
+
+  public static generateKeys(): {
+    algorithm: string;
+    password: string;
+    salt: string;
+  } {
     return {
       algorithm: "aes-256-cbc",
       password: crypto.randomBytes(48).toString("base64"),
@@ -93,10 +110,13 @@ export class SecretKey extends SecretKeyBase {
   }
 }
 
-export function encode(data: string, options?: SecretKeyOptions) {
+export function encode(
+  data: string,
+  options?: SecretKeyOptions
+): { data: string; options: SecretKeyOptions } {
   const lopt = {
     ...SecretKey.generateKeys(),
-    ...(options ? options : {}),
+    ...(options ?? {}),
   };
   return {
     data: SecretKey.activate(lopt).encode(data),
@@ -104,6 +124,6 @@ export function encode(data: string, options?: SecretKeyOptions) {
   };
 }
 
-export function decode(data: string, options?: SecretKeyOptions) {
+export function decode(data: string, options?: SecretKeyOptions): string {
   return SecretKey.activate(options).decode(data);
 }
