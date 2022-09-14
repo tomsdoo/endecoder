@@ -1,7 +1,9 @@
 .github/
+.husky/
 node_modules/
 src/
 test/
+.eslintrc.js
 package-lock.json
 tsconfig.base.json
 tsconfig.cjs.json
