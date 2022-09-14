@@ -16,6 +16,16 @@
     "prepare": "husky install",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run lint:src",
+      "npm run format:src"
+    ],
+    "test/**/*.ts": [
+      "npm run lint:test",
+      "npm run format:test"
+    ]
+  },
   "keywords": [
     "encryption",
     "secret",
