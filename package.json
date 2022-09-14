@@ -1,6 +1,6 @@
 {
   "name": "endecoder",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A module can encode/decode strings with the keys.",
   "main": "dist/cjs/secretkey.js",
   "module": "dist/esm/secretkey.js",
