@@ -5,7 +5,7 @@ export interface SecretKeyOptions {
   algorithm?: string;
   password?: string;
   salt?: string;
-};
+}
 
 class SecretKeyBase {
   protected algorithm: string;
@@ -74,7 +74,11 @@ class SecretKeyBase {
     );
   }
 
-  public static activate({ algorithm, password, salt }: SecretKeyOptions): SecretKeyBase {
+  public static activate({
+    algorithm,
+    password,
+    salt,
+  }: SecretKeyOptions): SecretKeyBase {
     return new this(algorithm as string, password as string, salt as string);
   }
 }
@@ -93,7 +97,11 @@ export class SecretKey extends SecretKeyBase {
     return new this(options);
   }
 
-  public static generateKeys(): { algorithm: string; password: string; salt: string; } {
+  public static generateKeys(): {
+    algorithm: string;
+    password: string;
+    salt: string;
+  } {
     return {
       algorithm: "aes-256-cbc",
       password: crypto.randomBytes(48).toString("base64"),
@@ -102,7 +110,10 @@ export class SecretKey extends SecretKeyBase {
   }
 }
 
-export function encode(data: string, options?: SecretKeyOptions): { data: string; options: SecretKeyOptions;} {
+export function encode(
+  data: string,
+  options?: SecretKeyOptions
+): { data: string; options: SecretKeyOptions } {
   const lopt = {
     ...SecretKey.generateKeys(),
     ...(options ?? {}),
