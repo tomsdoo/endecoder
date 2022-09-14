@@ -72,11 +72,11 @@ try{
 
 ### SecretKey class
 ``` typescript
-type SecretKeyOptions = {
+interface SecretKeyOptions {
     algorithm?: string;
     password?: string;
     salt?: string;
-};
+}
 
 class SecretKey {
   constructor(options?: SecretKeyOptions);
