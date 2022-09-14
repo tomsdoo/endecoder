@@ -16,6 +16,16 @@
     "prepare": "husky install",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run lint:src",
+      "npm run format:src"
+    ],
+    "test/**/*.ts": [
+      "npm run lint:test",
+      "npm run format:test"
+    ]
+  },
   "keywords": [
     "encryption",
     "secret",
@@ -40,6 +50,7 @@
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
     "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "mocha": "^9.1.2",
     "prettier": "^2.7.1",
     "ts-node": "^10.8.1",
