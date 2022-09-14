@@ -13,6 +13,7 @@
     "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "eslint src/**/*.ts",
     "lint:test": "eslint test/**/*.ts",
+    "prepare": "husky install",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
   "keywords": [
@@ -38,6 +39,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.5",
     "eslint-plugin-promise": "^6.0.1",
+    "husky": "^8.0.1",
     "mocha": "^9.1.2",
     "prettier": "^2.7.1",
     "ts-node": "^10.8.1",
