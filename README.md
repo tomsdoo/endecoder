@@ -1,6 +1,7 @@
 # endecoder
 
-A module can encode/decode strings with the keys.
+A module can encode/decode strings with the keys.  
+See [endecoder.netlify.app](https://endecoder.netlify.app/) for details.
 
 ![npm](https://img.shields.io/npm/v/endecoder)
 ![NPM](https://img.shields.io/npm/l/endecoder)
