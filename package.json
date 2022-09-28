@@ -10,6 +10,7 @@
     "format": "npm run format:src && npm run format:test",
     "format:src": "prettier --write src/**/*.ts",
     "format:test": "prettier --write test/**/*.ts",
+    "format:document": "prettier --write docs/**/*.html",
     "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "eslint src/**/*.ts",
     "lint:test": "eslint test/**/*.ts",
@@ -18,6 +19,7 @@
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register \"test/**/*.ts\" --timeout 30000"
   },
   "lint-staged": {
+    "docs/**/*.html": "npm run format:document",
     "src/**/*.ts": [
       "npm run lint:src",
       "npm run format:src"
